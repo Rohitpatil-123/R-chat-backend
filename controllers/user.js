@@ -35,6 +35,7 @@ export const registeruser = async (req, res) => {
       res.status(201).cookie("token", token, options).json({
         success: true,
         message: "registered succesfully",
+        data: userd,
       });
     }
   } catch (error) {
@@ -64,6 +65,7 @@ export const loginuser = async (req, res) => {
         return res.status(200).cookie("token", token, options).json({
           success: true,
           message: "Logged in successfully",
+          data: data,
         });
       } else {
         res
@@ -74,6 +76,24 @@ export const loginuser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+};
+
+export const logoutuser = async (req, res) => {
+  try {
+    res.clearCookie("token").json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getuser = async (req, res) => {
+  return res.status(200).json({
+    success: true,
+    data: req.data,
+  });
 };
 
 export const getusers = async (req, res) => {
@@ -92,17 +112,6 @@ export const getusers = async (req, res) => {
       success: true,
       message: "Users fetched successfully",
       data: users,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-export const logoutuser = async (req, res) => {
-  try {
-    res.clearCookie("token").json({
-      success: true,
-      message: "Logged out successfully",
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
