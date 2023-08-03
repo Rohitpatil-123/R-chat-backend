@@ -7,13 +7,15 @@ import {
   getusers,
   logoutuser,
   getuser,
+  getuserbyid,
 } from "../controllers/user.js";
 const router = express.Router();
 
 router.post("/register", registeruser);
 router.post("/login", loginuser);
-router.get("/", isauth, getusers);
+router.post("/", isauth, getusers);
 router.post("/logout", logoutuser);
 router.post("/getuser", isauth, getuser);
+router.post("/peruser", getuserbyid);
 
 export default router;

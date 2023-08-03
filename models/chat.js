@@ -9,12 +9,11 @@ const chatSchema = new mongoose.Schema({
   ],
   messages: [
     {
-      author: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-      ],
+      author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+
       message: {
         type: String,
       },

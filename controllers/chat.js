@@ -47,10 +47,29 @@ export const getuserchats = async (req, res) => {
   try {
     let userid = req.data._id;
     userid = userid.toString();
-    const chats = await chat.find({ users: { $elemMatch: { $ne: userid } } });
+    const chats = await chat
+      .find({ users: { $elemMatch: { $in: userid } } })
+      .populate("users");
     //   .populate("users");
     res.status(200).json({ success: true, data: chats });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+};
+
+export const getperchat = async (req, res) => {
+  try {
+    const user1id = req.body.user1id;
+    const user2id = req.body.user2id;
+    const users = [user1id, user2id];
+    users.sort();
+    const chatd = await chat
+      .findOne({ users: users })
+      .populate("messages.author", "-password");
+    if (chatd) {
+      res.status(200).json({ success: true, data: chatd.messages });
+    } else {
+      res.status(404).json({ success: false, message: "Chat not found" });
+    }
+  } catch (error) {}
 };

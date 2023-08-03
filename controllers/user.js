@@ -117,3 +117,23 @@ export const getusers = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getuserbyid = async (req, res) => {
+  try {
+    const id = req.body.id;
+    const data = await user.findById(id);
+    if (data) {
+      res
+        .status(200)
+        .json({
+          success: true,
+          message: "User fetched successfully",
+          data: data,
+        });
+    } else {
+      res.status(404).json({ success: false, message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
